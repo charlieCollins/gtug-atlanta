@@ -1,8 +1,12 @@
 package com.totsp.guavaguice;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
+import com.google.common.primitives.Ints;
 
 import org.junit.Test;
 
@@ -10,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import junit.framework.Assert;
+import java.util.Set;
 
 public class ImmutableCollectionsTest {
 
@@ -35,10 +38,10 @@ public class ImmutableCollectionsTest {
    public static final List<String> GUAVA_STRINGS = ImmutableList.of("one", "two", "three");
 
    @Test
-   public void testImmutableList() {
+   public void immutableListTest() {
       try {
          GUAVA_STRINGS.add("four");
-         Assert.fail();
+         fail();
       } catch (UnsupportedOperationException e) {
          // expected
       }
@@ -60,7 +63,7 @@ public class ImmutableCollectionsTest {
       assertEquals(3, list3.size());
       try {
          list3.remove(2);
-         Assert.fail();
+         fail();
       } catch (UnsupportedOperationException e) {
          // expected
       }
@@ -69,5 +72,55 @@ public class ImmutableCollectionsTest {
       // it's ok to make as many defensive copies as you want, just favor immutability to start
       List<String> list4 = ImmutableList.copyOf(list3);
       assertEquals(3, list4.size());
+   }  
+   
+   @Test
+   public void immutableSortedSetTest() {
+      
+      Set<String> set = ImmutableSortedSet.of("alpha", "beta", "gamma", "delta", "epsilon", "zeta");
+      assertEquals(6, set.size());
+      try {
+         set.add("theta");
+         fail();
+      } catch (UnsupportedOperationException e) {
+         // expected
+      }
+      
+      // get particular items at an index in a Set (in this case a SortedSet)
+      // note that SortedSet.of by DEFAULT uses natural ordering
+      assertEquals("alpha", Iterables.get(set, 0));
+      assertEquals("beta", Iterables.get(set, 1));
+      assertEquals("delta", Iterables.get(set, 2));
+      assertEquals("epsilon", Iterables.get(set, 3));
+      assertEquals("gamma", Iterables.get(set, 4));
+      assertEquals("zeta", Iterables.get(set, 5));
+      
+      // you can also use withExplicitOrder
+      set = ImmutableSortedSet.withExplicitOrder("alpha", "beta", "gamma", "delta", "epsilon", "zeta");
+      assertEquals("alpha", Iterables.get(set, 0));
+      assertEquals("beta", Iterables.get(set, 1));
+      assertEquals("gamma", Iterables.get(set, 2));
+      assertEquals("delta", Iterables.get(set, 3));
+      assertEquals("epsilon", Iterables.get(set, 4));
+      assertEquals("zeta", Iterables.get(set, 5));
+      
+      // or your own Comparator -- which with Guava involves Ordering
+      Ordering<String> lengthOrdering = new Ordering<String>() {
+         public int compare(String left, String right) {
+           return Ints.compare(left.length(), right.length()); // notice Ints
+         }
+       };
+       // NOTE: odd that "addAll" doesn't work here, beta/delta/zeta aren't added, because comparator returns 0
+       // not sure if this is intentional
+      set = ImmutableSortedSet.orderedBy(lengthOrdering).addAll(set).build();  // notice Builder (common, your friend)
+      assertEquals("beta", Iterables.get(set, 0));
+      assertEquals("alpha", Iterables.get(set, 1));
+      assertEquals("epsilon", Iterables.get(set, 2));
+      //assertEquals("delta", Iterables.get(set, 3));
+      //assertEquals("epsilon", Iterables.get(set, 4));
+      //assertEquals("zeta", Iterables.get(set, 5));
+      
+      
+      
    }
 }

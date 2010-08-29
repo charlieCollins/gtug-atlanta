@@ -1,6 +1,7 @@
 package com.totsp.guavaguice;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -21,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
-
-import junit.framework.Assert;
 
 public class CollectionsTest {
 
@@ -46,7 +45,7 @@ public class CollectionsTest {
       list.add("three");
       try {
          list.add(null);
-         Assert.fail();
+         fail();
       } catch (NullPointerException e) {
          // expected
       }
@@ -123,7 +122,7 @@ public class CollectionsTest {
       map.put("key3", "value3");
       try {
          map.put("key4", null);
-         Assert.fail();
+         fail();
       } catch (NullPointerException e) {
          // expected
       } 
