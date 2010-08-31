@@ -2,6 +2,7 @@ package com.totsp.guavaguice;
 
 import static junit.framework.Assert.*;
 
+import com.google.common.base.Equivalences;
 import com.google.common.base.Objects;
 
 import org.junit.Test;
@@ -104,7 +105,7 @@ public class ObjectsTest {
             return false;
          return true;
       }
-
+     
       public String getFirstName() {
          return this.firstName;
       }
