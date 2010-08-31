@@ -8,6 +8,8 @@ import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Constraints;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MapConstraint;
 import com.google.common.collect.MapConstraints;
@@ -33,9 +35,9 @@ public class CollectionsTest {
 
       // Guava
       List<String> list2 = Lists.newArrayList("one", "two", "three");
-      assertEquals(3, list2.size());      
+      assertEquals(3, list2.size());
    }
-  
+
    @Test
    public void listConstraintsTest() {
       List<String> backingList = Lists.newArrayList();
@@ -51,12 +53,21 @@ public class CollectionsTest {
       }
       assertEquals(3, list.size());
    }
-   
+
    @Test
    public void listTransformTest() {
-      // tODO
+      List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5);
+      assertEquals(new Integer(5), list.get(4));
+      
+      List<Integer> transformedList = Lists.newArrayList(Iterables.transform(list, new Function<Integer, Integer>() {
+         public Integer apply(final Integer input) {
+            return input * 10;
+         }
+      }));
+      assertEquals(5, transformedList.size());      
+      assertEquals(new Integer(50), transformedList.get(4));
    }
-  
+
    @Test
    public void mapsBasicTest() {
       // the same with Maps (and all other Collections)
@@ -77,7 +88,7 @@ public class CollectionsTest {
       assertEquals(new Integer(42), transformMap.get("key4"));
 
       // also see difference, fromProperties      
-   }
+   }  
 
    @Test
    public void mapMakerTest() {
@@ -99,7 +110,7 @@ public class CollectionsTest {
       assertEquals(new Long(5), fibMap.get(5));
       assertEquals(new Long(55), fibMap.get(10));
    }
-   
+
    // NOTE this is NOT the best way to do fibonacci, intentionally a slow algorithm
    private long fib(int n) {
       Preconditions.checkArgument(n >= 0, "only positive integers, please");
@@ -109,6 +120,7 @@ public class CollectionsTest {
          return fib(n - 1) + fib(n - 2);
    }
 
+   // Constraints are very impressive too
    @Test
    public void mapConstraintsTest() {
       Map<String, String> backingMap = Maps.newHashMap();
@@ -125,13 +137,7 @@ public class CollectionsTest {
          fail();
       } catch (NullPointerException e) {
          // expected
-      } 
+      }
       assertEquals(3, map.size());
    }
-   
-   @Test
-   public void biMapTest() {
-      // TODO BiMap
-   }
-  
 }

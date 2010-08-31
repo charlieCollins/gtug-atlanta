@@ -1,14 +1,14 @@
 package com.totsp.guavaguice;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
 
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 
 import org.junit.Test;
 
 public class MultiSetsMapsTest {
-
    
    @Test
    public void mulitSetBasicTest() {      
@@ -30,7 +30,7 @@ public class MultiSetsMapsTest {
    @Test
    public void mulitMapBasicTest() {
       
-      
+      // replace old way
       
    }
    

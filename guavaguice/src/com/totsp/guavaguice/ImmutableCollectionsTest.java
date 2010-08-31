@@ -3,6 +3,7 @@ package com.totsp.guavaguice;
 import static junit.framework.Assert.*;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
@@ -97,6 +98,7 @@ public class ImmutableCollectionsTest {
       
       // you can also use withExplicitOrder
       set = ImmutableSortedSet.withExplicitOrder("alpha", "beta", "gamma", "delta", "epsilon", "zeta");
+      assertEquals(6, set.size());
       assertEquals("alpha", Iterables.get(set, 0));
       assertEquals("beta", Iterables.get(set, 1));
       assertEquals("gamma", Iterables.get(set, 2));
@@ -110,17 +112,19 @@ public class ImmutableCollectionsTest {
            return Ints.compare(left.length(), right.length()); // notice Ints
          }
        };
-       // NOTE: odd that "addAll" doesn't work here, beta/delta/zeta aren't added, because comparator returns 0
-       // not sure if this is intentional
+       // NOTE delta/epsilon/zeta aren't added because
+       // they don't compare via the ordering (they are the same length as existing elements)
       set = ImmutableSortedSet.orderedBy(lengthOrdering).addAll(set).build();  // notice Builder (common, your friend)
+      assertEquals(3, set.size());
       assertEquals("beta", Iterables.get(set, 0));
       assertEquals("alpha", Iterables.get(set, 1));
-      assertEquals("epsilon", Iterables.get(set, 2));
-      //assertEquals("delta", Iterables.get(set, 3));
-      //assertEquals("epsilon", Iterables.get(set, 4));
-      //assertEquals("zeta", Iterables.get(set, 5));
-      
-      
-      
+      assertEquals("epsilon", Iterables.get(set, 2));       
+   }
+   
+   @Test
+   public void smallImmutableMapTest() {
+      // great for small "Constants Maps" 
+      ImmutableMap<String, Integer> assetPrices = ImmutableMap.of("IBM", 100, "GOOG", 451);
+      assertEquals(new Integer(451), assetPrices.get("GOOG"));
    }
 }
