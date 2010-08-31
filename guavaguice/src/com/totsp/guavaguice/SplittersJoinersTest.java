@@ -2,6 +2,7 @@ package com.totsp.guavaguice;
 
 import static junit.framework.Assert.*;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -19,8 +20,10 @@ public class SplittersJoinersTest {
       assertEquals(6, parts.size()); 
 
       // NOTE can split on single char, literal String, regex Pattern, or CharMatcher (awesome!)
-   }
-   
+      String input = "this\nis\ta string\n\n separated with whitespace";
+      parts = Lists.newArrayList(Splitter.on(CharMatcher.JAVA_WHITESPACE).split(input));
+      assertEquals(9, parts.size());
+   }   
    
    @Test
    public void joinerBasicTest() {
