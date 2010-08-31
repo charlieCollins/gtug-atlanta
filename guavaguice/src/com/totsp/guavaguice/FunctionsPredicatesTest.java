@@ -15,7 +15,8 @@ import java.util.List;
 
 public class FunctionsPredicatesTest {
    
-   
+   // A Function does a "transformation" from one object to another, has 1 input, 1 output -- f(x)
+   // often does with anonymous inner classes, for now (Java 7 closures will make this even better)
    @Test
    public void functionsBasicTest() {
       List<String> list = Lists.newArrayList("one", "tWo", "THREE");
@@ -40,6 +41,10 @@ public class FunctionsPredicatesTest {
       assertEquals("three", lowerList.get(2));
    }
    
+   // A Predicate determines true or false for a given input
+   // again often done with anonymous inner classes, 
+   // when you start combining this this stuff it gets powerful
+   // Function/Predicate/Collections/Iterables/CharMatcher/etc
    @Test
    public void predicatesBasicTest() {
       List<String> list = Lists.newArrayList("one", "tWo", "THREE");
