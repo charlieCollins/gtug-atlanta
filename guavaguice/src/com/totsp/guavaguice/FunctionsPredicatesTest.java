@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-public class FunctionsTest {
+public class FunctionsPredicatesTest {
    
    
    @Test
