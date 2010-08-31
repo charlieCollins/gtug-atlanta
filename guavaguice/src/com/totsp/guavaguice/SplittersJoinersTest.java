@@ -16,7 +16,9 @@ public class SplittersJoinersTest {
    public void splitterBasicTest() {      
       String csv = "first, second, third, fourth, fifth, sixth";
       List<String> parts = Lists.newArrayList(Splitter.on(',').split(csv));
-      assertEquals(6, parts.size());           
+      assertEquals(6, parts.size()); 
+
+      // NOTE can split on single char, literal String, regex Pattern, or CharMatcher (awesome!)
    }
    
    
