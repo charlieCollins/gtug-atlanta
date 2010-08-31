@@ -26,4 +26,12 @@ public class SplittersJoinersTest {
       String csv = Joiner.on(',').join(list);
       assertEquals("first,second,third,fourth,fifth,sixth", csv);           
    }
+   
+   @Test
+   public void joinerConfigureTest() {
+      List<String> list = Lists.newArrayList("first", "second", null, "fourth", null, "sixth");
+      StringBuilder sb = new StringBuilder();
+      Joiner.on(',').skipNulls().appendTo(sb, list);
+      assertEquals("first,second,fourth,sixth", sb.toString());  
+   }
 }
