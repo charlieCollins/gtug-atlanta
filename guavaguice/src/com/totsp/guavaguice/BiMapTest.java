@@ -15,7 +15,7 @@ public class BiMapTest {
       // note FAVORING OF STATIC FACTORY METHODS (like HashBiMap.create or Lists.newArrayList)
       // constructors are horrible at generic type inference (static methods are not)
       // and static factory methods have other advantages (can re-use objects, can use subclasses, etc.)
-      // (Guava has public no arg ctors for reflection, etc, but regular ones you might expect)
+      // (Guava has public no arg ctors for reflection, etc, but not regular ones you might expect)
       BiMap<String, Integer> biMap = HashBiMap.create();      
       biMap.put("one", 1);
       biMap.put("two", 2);
